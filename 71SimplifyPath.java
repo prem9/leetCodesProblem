@@ -5,21 +5,18 @@ class Solution {
 
         for (String part : parts) {
             if (part.equals("") || part.equals(".")) {
-                // Skip empty or current directory
                 continue;
             } else if (part.equals("..")) {
-                if (!stack.isEmpty()) {
-                    stack.pop(); // Go up one level
-                }
+                if (!stack.isEmpty()) stack.pop();
             } else {
-                stack.push(part); // Valid directory name
+                stack.push(part);
             }
         }
 
-        // Reconstruct canonical path
         StringBuilder result = new StringBuilder();
-        for (String dir : stack.descendingIterator()) {
-            result.append("/").append(dir);
+        Iterator<String> iter = stack.descendingIterator();
+        while (iter.hasNext()) {
+            result.append("/").append(iter.next());
         }
 
         return result.length() == 0 ? "/" : result.toString();
